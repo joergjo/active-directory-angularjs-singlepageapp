@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Owin;
+﻿using Microsoft.Owin.Security.ActiveDirectory;
 using Owin;
-using Microsoft.Owin.Security.ActiveDirectory;
 using System.Configuration;
+using System.IdentityModel.Tokens;
 
 namespace TodoSPA
 {
@@ -14,8 +12,11 @@ namespace TodoSPA
             app.UseWindowsAzureActiveDirectoryBearerAuthentication(
                 new WindowsAzureActiveDirectoryBearerAuthenticationOptions
                 {
-                    Audience = ConfigurationManager.AppSettings["ida:Audience"],
-                    Tenant = ConfigurationManager.AppSettings["ida:Tenant"]
+                    Tenant = ConfigurationManager.AppSettings["ida:Tenant"],
+                    TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidAudience = ConfigurationManager.AppSettings["ida:Audience"]
+                    }
                 });
         }
 
