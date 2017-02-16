@@ -17,51 +17,42 @@ For more information about how the protocols work in this scenario and other sce
 Getting started is simple!  To run this sample you will need:
 - Visual Studio 2013
 - An Internet connection
-- An Azure subscription (a free trial is sufficient)
-
-Every Azure subscription has an associated Azure Active Directory tenant.  If you don't already have an Azure subscription, you can get a free subscription by signing up at [http://www.windowsazure.com](http://www.windowsazure.com).  All of the Azure AD features used by this sample are available free of charge.
+- An Azure Active Directory (Azure AD) tenant. For more information on how to get an Azure AD tenant, please see [How to get an Azure AD tenant](https://azure.microsoft.com/en-us/documentation/articles/active-directory-howto-tenant/) 
+- A user account in your Azure AD tenant. This sample will not work with a Microsoft account, so if you signed in to the Azure portal with a Microsoft account and have never created a user account in your directory before, you need to do that now.
 
 ### Step 1:  Clone or download this repository
 
 From your shell or command line:
-`git clone https://github.com/Azure-Samples/SinglePageApp-DotNet.git`
+`git clone https://github.com/Azure-Samples/active-directory-angularjs-singlepageapp.git`
 
 ### Step 2:  Register the sample with your Azure Active Directory tenant
 
-1. Sign in to the [Azure management portal](https://manage.windowsazure.com).
-2. Click on Active Directory in the left hand nav.
-3. Click the directory tenant where you wish to register the sample application.
-4. Click the Applications tab.
-5. In the drawer, click Add.
-6. Click "Add an application my organization is developing".
-7. Enter a friendly name for the application, for example "SinglePageApp-DotNet", select "Web Application and/or Web API", and click next.
-8. For the sign-on URL, enter the base URL for the sample, which is by default `https://localhost:44326/`.
-9. For the App ID URI, enter `https://<your_tenant_name>/SinglePageApp-DotNet`, replacing `<your_tenant_name>` with the name of your Azure AD tenant.
-
-All done!  Before moving on to the next step, you need to find the Client ID of your application.
-
-1. While still in the Azure portal, click the Configure tab of your application.
-2. Find the Client ID value and copy it to the clipboard.
-
+1. Sign in to the [Azure portal](https://portal.azure.com).
+2. On the top bar, click on your account and under the **Directory** list, choose the Active Directory tenant where you wish to register your application.
+3. Click on **More Services** in the left hand nav, and choose **Azure Active Directory**.
+4. Click on **App registrations** and choose **Add**.
+5. Enter a friendly name for the application, for example "SinglePageApp-DotNet" and select "Web Application and/or Web API" as the Application Type. For the sign-on URL, enter the base URL for the sample, which is by default `https://localhost:44326/`. For the App ID URI, enter `https://<your_tenant_name>/SinglePageApp-DotNet`, replacing `<your_tenant_name>` with the name of your Azure AD tenant. Click on **Create** to create the application.
+6. While still in the Azure portal, choose your application, click on **Settings** and choose **Properties**.
+7. Find the Application ID value and copy it to the clipboard.
+8. Grant permissions across your tenant for your application. Go to Settings -> Properties -> Required Permissions, and click on the **Grant Permissions** button in the top bar. Click **Yes** to confirm.
 
 ### Step 3:  Enable the OAuth2 implicit grant for your application
 
 By default, applications provisioned in Azure AD are not enabled to use the OAuth2 implicit grant. In order to run this sample, you need to explicitly opt in.
 
-1. From the former steps, your browser should still be on the Azure management portal - and specifically, displaying the Configure tab of your application's entry.
-2. Using the Manage Manifest button in the drawer, download the manifest file for the application and save it to disk.
-3. Open the manifest file with a text editor. Search for the `oauth2AllowImplicitFlow` property. You will find that it is set to `false`; change it to `true` and save the file.
-4. Using the Manage Manifest button, upload the updated manifest file. Save the configuration of the app.
+1. From the previous steps, your browser should still be on the Azure portal.
+2. From your application page, choose **Manifest** to open the inline manifest editor.
+3. Search for the `oauth2AllowImplicitFlow` property. You will find that it is set to `false`; change it to `true` and click on **Save** to save the manifest.
 
 ### Step 4:  Configure the sample to use your Azure Active Directory tenant
 
 1. Open the solution in Visual Studio 2013.
 2. Open the `web.config` file.
 3. Find the app key `ida:Tenant` and replace the value with your AAD tenant name.
-4. Find the app key `ida:Audience` and replace the value with the Client ID from the Azure portal.
+4. Find the app key `ida:Audience` and replace the value with the Application ID from the Azure portal.
 5. Open the file `App/Scripts/App.js` and locate the line `adalAuthenticationServiceProvider.init(`.
 6. Replace the value of `tenant` with your AAD tenant name.
-7. Replace the value of `clientId` with the Client ID from the Azure portal.
+7. Replace the value of `clientId` with the Application ID from the Azure portal.
 
 ### Step 5:  Run the sample
 
